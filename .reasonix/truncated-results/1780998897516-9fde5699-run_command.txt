@@ -1,0 +1,174 @@
+$ mvn -f backend/pom.xml clean package -DskipTests 2>&1
+[exit 0]
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.campushelp:campus-help-backend >-----------------
+[INFO] Building Campus Help Backend 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ campus-help-backend ---
+[INFO] Deleting C:\Users\ASUS\Desktop\综合实训1\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ campus-help-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ campus-help-backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 51 source files with javac [debug release 17] to target\classes
+[INFO] 由于在类路径中发现了一个或多个处理程序，因此启用了
+  批注处理。未来发行版的 javac 可能会禁用批注处理，
+  除非至少按名称指定了一个处理程序 (-processor)，
+  或指定了搜索路径 (--processor-path, --processor-module-path)，
+  或显式启用了批注处理 (-proc:only, -proc:full)。
+  可使用 -Xlint:-options 隐藏此消息。
+  可使用 -proc:none 禁用批注处理。
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ campus-help-backend ---
+[INFO] skip non existing resourceDirectory C:\Users\ASUS\Desktop\综合实训1\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ campus-help-backend ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ campus-help-backend ---
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/maven-surefire-common/3.1.2/maven-surefire-common-3.1.2.pom
+Progress (1): 0.5/6.1 kBProgress (1): 6.1 kB                        Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/maven-surefire-common/3.1.2/maven-surefire-common-3.1.2.pom (6.1 kB at 21 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-api/3.1.2/surefire-api-3.1.2.pom
+Progress (1): 3.5 kB                    Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-api/3.1.2/surefire-api-3.1.2.pom (3.5 kB at 48 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-logger-api/3.1.2/surefire-logger-api-3.1.2.pom
+Progress (1): 0.5/3.3 kBProgress (1): 3.3 kB                        Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-logger-api/3.1.2/surefire-logger-api-3.1.2.pom (3.3 kB at 48 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-shared-utils/3.1.2/surefire-shared-utils-3.1.2.pom
+Progress (1): 4.1 kB                    Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-shared-utils/3.1.2/surefire-shared-utils-3.1.2.pom (4.1 kB at 49 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-extensions-api/3.1.2/surefire-extensions-api-3.1.2.pom
+Progress (1): 1.9/3.3 kBProgress (1): 3.3 kB                        Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-extensions-api/3.1.2/surefire-extensions-api-3.1.2.pom (3.3 kB at 47 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-booter/3.1.2/surefire-booter-3.1.2.pom
+Progress (1): 0.5/4.5 kBProgress (1): 4.5 kB                        Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-booter/3.1.2/surefire-booter-3.1.2.pom (4.5 kB at 54 kB/s)
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-extensions-spi/3.1.2/surefire-extensions-spi-3.1.2.pom
+Progress (1): 1.8 kB                    Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/surefire/surefire-extensions-spi/3.1.2/surefire-extensions-spi-3.1.2.pom (1.8 kB at 15 kB/s)
+[INFO] Artifact org.apache.maven.shared:maven-common-artifact-filters:pom:3.1.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven.shared:maven-common-artifact-filters:pom:3.1.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/shared/maven-common-artifact-filters/3.1.1/maven-common-artifact-filters-3.1.1.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/shared/maven-common-artifact-filters/3.1.1/maven-common-artifact-filters-3.1.1.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-artifact:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-artifact:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-artifact/3.2.5/maven-artifact-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-artifact/3.2.5/maven-artifact-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven/3.2.5/maven-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven/3.2.5/maven-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-parent:pom:25 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-parent:pom:25 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-parent/25/maven-parent-25.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-parent/25/maven-parent-25.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache:apache:pom:15 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache:apache:pom:15 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/apache/15/apache-15.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/apache/15/apache-15.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-core:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-core:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-core/3.2.5/maven-core-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-core/3.2.5/maven-core-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-settings:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-settings:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-settings/3.2.5/maven-settings-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-settings/3.2.5/maven-settings-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-settings-builder:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-settings-builder:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-settings-builder/3.2.5/maven-settings-builder-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-settings-builder/3.2.5/maven-settings-builder-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.codehaus.plexus:plexus-interpolation:pom:1.21 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.codehaus.plexus:plexus-interpolation:pom:1.21 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-interpolation/1.21/plexus-interpolation-1.21.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-interpolation/1.21/plexus-interpolation-1.21.pom (0 B at 0 B/s)
+[INFO] Artifact org.codehaus.plexus:plexus-components:pom:1.3.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.codehaus.plexus:plexus-components:pom:1.3.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-components/1.3.1/plexus-components-1.3.1.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-components/1.3.1/plexus-components-1.3.1.pom (0 B at 0 B/s)
+[INFO] Artifact org.codehaus.plexus:plexus:pom:3.3.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.codehaus.plexus:plexus:pom:3.3.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus/3.3.1/plexus-3.3.1.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus/3.3.1/plexus-3.3.1.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.spice:spice-parent:pom:17 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.spice:spice-parent:pom:17 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/spice/spice-parent/17/spice-parent-17.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/spice/spice-parent/17/spice-parent-17.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.forge:forge-parent:pom:10 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.forge:forge-parent:pom:10 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/forge/forge-parent/10/forge-parent-10.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/forge/forge-parent/10/forge-parent-10.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.plexus:plexus-sec-dispatcher:pom:1.3 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.plexus:plexus-sec-dispatcher:pom:1.3 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.spice:spice-parent:pom:12 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.spice:spice-parent:pom:12 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/spice/spice-parent/12/spice-parent-12.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/spice/spice-parent/12/spice-parent-12.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.forge:forge-parent:pom:4 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.forge:forge-parent:pom:4 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/forge/forge-parent/4/forge-parent-4.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/forge/forge-parent/4/forge-parent-4.pom (0 B at 0 B/s)
+[INFO] Artifact org.sonatype.plexus:plexus-cipher:pom:1.4 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.sonatype.plexus:plexus-cipher:pom:1.4 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-repository-metadata:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-repository-metadata:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-repository-metadata/3.2.5/maven-repository-metadata-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-repository-metadata/3.2.5/maven-repository-metadata-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-plugin-api:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-plugin-api:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-plugin-api/3.2.5/maven-plugin-api-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-plugin-api/3.2.5/maven-plugin-api-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.eclipse.sisu:org.eclipse.sisu.plexus:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.eclipse.sisu:org.eclipse.sisu.plexus:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.5/org.eclipse.sisu.plexus-0.3.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.5/org.eclipse.sisu.plexus-0.3.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.eclipse.sisu:sisu-plexus:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.eclipse.sisu:sisu-plexus:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/sisu-plexus/0.3.5/sisu-plexus-0.3.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/sisu-plexus/0.3.5/sisu-plexus-0.3.5.pom (0 B at 0 B/s)
+[INFO] Artifact javax.annotation:javax.annotation-api:pom:1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact javax.annotation:javax.annotation-api:pom:1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.pom (0 B at 0 B/s)
+[INFO] Artifact net.java:jvnet-parent:pom:3 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact net.java:jvnet-parent:pom:3 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/net/java/jvnet-parent/3/jvnet-parent-3.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/net/java/jvnet-parent/3/jvnet-parent-3.pom (0 B at 0 B/s)
+[INFO] Artifact javax.enterprise:cdi-api:pom:1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact javax.enterprise:cdi-api:pom:1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/javax/enterprise/cdi-api/1.2/cdi-api-1.2.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/javax/enterprise/cdi-api/1.2/cdi-api-1.2.pom (0 B at 0 B/s)
+[INFO] Artifact org.jboss.weld:weld-parent:pom:26 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.jboss.weld:weld-parent:pom:26 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/jboss/weld/weld-parent/26/weld-parent-26.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/jboss/weld/weld-parent/26/weld-parent-26.pom (0 B at 0 B/s)
+[INFO] Artifact org.eclipse.sisu:org.eclipse.sisu.inject:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.eclipse.sisu:org.eclipse.sisu.inject:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.5/org.eclipse.sisu.inject-0.3.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.5/org.eclipse.sisu.inject-0.3.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.eclipse.sisu:sisu-inject:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.eclipse.sisu:sisu-inject:pom:0.3.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/sisu-inject/0.3.5/sisu-inject-0.3.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/sisu/sisu-inject/0.3.5/sisu-inject-0.3.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.codehaus.plexus:plexus-classworlds:pom:2.5.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.codehaus.plexus:plexus-classworlds:pom:2.5.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-classworlds/2.5.2/plexus-classworlds-2.5.2.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/codehaus/plexus/plexus-classworlds/2.5.2/plexus-classworlds-2.5.2.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-model-builder:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-model-builder:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-model-builder/3.2.5/maven-model-builder-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-model-builder/3.2.5/maven-model-builder-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.apache.maven:maven-aether-provider:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.apache.maven:maven-aether-provider:pom:3.2.5 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-aether-provider/3.2.5/maven-aether-provider-3.2.5.pom
+Downloaded from aliyunmaven: https://maven.aliyun.com/repository/public/org/apache/maven/maven-aether-provider/3.2.5/maven-aether-provider-3.2.5.pom (0 B at 0 B/s)
+[INFO] Artifact org.eclipse.aether:aether-spi:pom:1.0.0.v20140518 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+[INFO] Artifact org.eclipse.aether:aether-spi:pom:1.0.0.v20140518 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [aliyunmaven (https://maven.aliyun.com/repository/public, default, releases+snapshots)]
+Downloading from aliyunmaven: https://maven.aliyun.com/repository/public/org/eclipse/aether/aether-spi/1.0.0.v20140518/aether-spi-1.0.0.v20140518.pom
+Downloaded from aliyunma
+
+[… truncated 33815 chars …]

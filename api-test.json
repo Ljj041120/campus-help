@@ -1,0 +1,41 @@
+{
+  "title": "校园帮项目测试",
+  "endpoints": [
+    {
+      "name": "微信登录",
+      "url": "POST http://localhost:8080/api/auth/wechat",
+      "body": "{\"code\": \"test_code_123456\"}"
+    },
+    {
+      "name": "获取用户信息",
+      "url": "GET http://localhost:8080/api/auth/info",
+      "header": "Authorization: Bearer <token>"
+    },
+    {
+      "name": "获取数据大屏",
+      "url": "GET http://localhost:8080/api/admin/dashboard",
+      "header": "Authorization: Bearer <token>"
+    },
+    {
+      "name": "创建订单",
+      "url": "POST http://localhost:8080/api/order/create",
+      "header": "Authorization: Bearer <token>",
+      "body": {
+        "orderType": 1,
+        "pickupAddress": "菜鸟驿站",
+        "pickupLng": 121.5,
+        "pickupLat": 31.2,
+        "deliveryAddress": "宿舍楼",
+        "deliveryLng": 121.6,
+        "deliveryLat": 31.3,
+        "amount": 5.00,
+        "expectedTime": "2026-06-10 15:00:00"
+      }
+    },
+    {
+      "name": "钱包信息",
+      "url": "GET http://localhost:8080/api/wallet/info",
+      "header": "Authorization: Bearer <token>"
+    }
+  ]
+}

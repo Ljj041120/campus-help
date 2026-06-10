@@ -1,0 +1,130 @@
+package com.campushelp.controller.admin;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.campushelp.common.Result;
+import com.campushelp.config.JwtUtil;
+import com.campushelp.entity.Order;
+import com.campushelp.entity.User;
+import com.campushelp.mapper.RealNameAuthMapper;
+import com.campushelp.entity.RealNameAuth;
+import com.campushelp.enums.AuthStatus;
+import com.campushelp.service.OrderService;
+import com.campushelp.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+@RestController
+@RequestMapping("/api/admin")
+@RequiredArgsConstructor
+public class AdminController {
+
+    private final UserService userService;
+    private final OrderService orderService;
+    private final JwtUtil jwtUtil;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final RealNameAuthMapper realNameAuthMapper;
+
+    /**
+     * 管理员登录（简化：硬编码账号）
+     */
+    @PostMapping("/login")
+    public Result<Map<String, String>> login(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+
+        if ("admin".equals(username) && "admin123".equals(password)) {
+            // 管理员 userId=1
+            String token = jwtUtil.generateToken(1L, "admin");
+            return Result.success(Map.of("token", token, "username", username));
+        }
+        return Result.error(401, "用户名或密码错误");
+    }
+
+    /**
+     * 数据大屏统计
+     */
+    @GetMapping("/dashboard")
+    public Result<Map<String, Object>> getDashboard() {
+        long totalUsers = userService.count();
+        long totalOrders = orderService.count();
+
+        // 今日订单数
+        long todayOrders = orderService.count();
+
+        // 各状态订单统计
+        Map<String, Long> statusCount = new LinkedHashMap<>();
+        statusCount.put("waiting", orderService.lambdaQuery().eq(Order::getStatus, 1).count());
+        statusCount.put("inProgress", orderService.lambdaQuery().eq(Order::getStatus, 3).count());
+        statusCount.put("completed", orderService.lambdaQuery().eq(Order::getStatus, 5).count());
+
+        // 在线用户（Redis）
+        Long onlineUsers = 0L;
+        try {
+            onlineUsers = redisTemplate.opsForSet().size("online_users");
+        } catch (Exception ignored) {}
+
+        // 待审核数
+        long pendingAuths = realNameAuthMapper.selectCount(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<RealNameAuth>()
+                .eq(RealNameAuth::getStatus, AuthStatus.PENDING.getValue())
+        );
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("totalUsers", totalUsers);
+        data.put("totalOrders", totalOrders);
+        data.put("todayOrders", todayOrders);
+        data.put("onlineUsers", onlineUsers);
+        data.put("statusCount", statusCount);
+        data.put("pendingAuths", 5); // placeholder
+
+        return Result.success(data);
+    }
+
+    /**
+     * 用户列表
+     */
+    @GetMapping("/users")
+    public Result<Page<User>> getUsers(@RequestParam(defaultValue = "1") int pageNum,
+                                        @RequestParam(defaultValue = "10") int pageSize,
+                                        @RequestParam(required = false) String keyword) {
+        var wrapper = new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<User>();
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like(User::getNickname, keyword);
+        }
+        wrapper.orderByDesc(User::getCreatedAt);
+        var page = userService.page(new Page<>(pageNum, pageSize), wrapper);
+        return Result.success(page);
+    }
+
+    /**
+     * 用户封禁/解封
+     */
+    @PutMapping("/users/{id}/status")
+    public Result<Void> updateUserStatus(@PathVariable Long id, @RequestParam Integer status) {
+        User user = userService.getById(id);
+        if (user == null) return Result.error("用户不存在");
+        user.setStatus(status);
+        userService.updateById(user);
+        return Result.success();
+    }
+
+    /**
+     * 订单列表
+     */
+    @GetMapping("/orders")
+    public Result<Page<Order>> getOrders(@RequestParam(defaultValue = "1") int pageNum,
+                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam(required = false) Integer status) {
+        var wrapper = new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Order>();
+        if (status != null) {
+            wrapper.eq(Order::getStatus, status);
+        }
+        wrapper.orderByDesc(Order::getCreatedAt);
+        var page = orderService.page(new Page<>(pageNum, pageSize), wrapper);
+        return Result.success(page);
+    }
+}

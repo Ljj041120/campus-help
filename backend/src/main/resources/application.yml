@@ -1,0 +1,115 @@
+# 服务端口
+server:
+  port: 8080
+
+spring:
+  application:
+    name: campus-help-backend
+
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/campus_help?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: '@Lujunjie1120'
+
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      timeout: 5000ms
+
+  # Jackson 配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.campushelp.entity
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# JWT 配置
+jwt:
+  secret: CampusHelp2026SecretKeyForJWTTokenGeneration
+  expiration: 604800000  # 7天，单位毫秒
+
+# 日志配置
+logging:
+  level:
+    com.campushelp: debug
+    com.baomidou.mybatisplus: debug
+
+# ============================================
+# 应用自定义配置
+# ============================================
+app:
+  # 文件上传路径
+  upload:
+    path: uploads
+
+  # 平台服务费比例（可被数据库 sys_config 覆盖）
+  platform-fee-rate: 0.05
+
+  # 支付宝回调地址
+  alipay-notify-url: http://localhost:8080/api/pay/alipay/notify
+
+# ============================================
+# 微信小程序配置
+# ============================================
+wechat:
+  appid: wx491e4b37ff5d0130
+  secret: ddb977f7f57f212e6e80c1d45bbd0f41
+  # 微信登录接口
+  login-url: https://api.weixin.qq.com/sns/jscode2session
+
+# ============================================
+# 支付宝沙箱配置
+# ============================================
+alipay:
+  app-id: 9021000164657830
+  private-key: "MIIEpAIBAAKCAQEAwn2dItNW54tWl5+uIWnG1G3tGdmVutovNMZw3NB/iRpRP7VMkyGnNoxk/PXzpvpwVVZd/NUnG9rt4Wvs5G9vC71gGNXmgcUCbJoM7xC9utS1XizP+xNdNJbPPGc/dsyJw5Ew8bmpknph0cR+DABjNfQJLCEz76Q8iXit9Kno734hVYU4BL4Dw6803tXdY7XZ9Q+KOMZHdf8WW5qNtcxik/3CiYWMy6FgUex08WHV4JTPuph24B4h+onNHAhY98QY8sRgtDxAfDyR6T8kugC44D0S4HNVjEC79FnedGnKoUBSsc6KE0KFa975bJv8wGRJ1kIYeCr5aGhyE3x/eZK4CQIDAQABAoIBAAZsB2hC+jejDjTrfOB1ka8qAg48dQk6cxyXANsJt2xbhhtIbULedZsDf8IqjOUSl+r5cxkKIMR2siwjWCsi0tPcaPPo/DeEvdPAMnUiZGFq7KIzcJqlxQobgLRJ5HqTvmjKvob8znCbwecfSdozmRMK/9KJNiHPloAjj/roMVzXCoU2idC5HDAH++f+t8s99z19bnUi2+V8mcyKewlWCrM9bYCGgpXeAHG4lQkmrAmN7ZpMEhzoDcd6IGN6mBo6TK3SjUexFflRKTvZ91K97cqxSDo0YrZdURu4KvstRx1sKv2YKCta/qMtTtTAVNryZt0n+N+6+WRvHnD2z7M2DkECgYEA+mwKtBKBmPpK/8+aIHO7sf7hpFLS8NTHJcawmcsIX02PFZIIwh4/T2neAVnQeWXY6MgWis9v9dWdidJ12AGVeYCNwOI9g4UdJXsJUtEwdl8evsWm811QqI95IWNARZW7PqbS+DTa4qj6Hc4y7THdRIFUS3a0KvoSVCreXs2EyDUCgYEAxtKjzG7Qa5ka3nd/50sYnsx1W2u1s1Xr1uTZ6gBnvCTR9Zuvh3BFZpaLhdd77UBMU8GR9lwivA1GL7JE8uezuILdxO//9fAgiphrY5IR+JysamfbatlJGWxMTuO0XmWDIvoMZXIkNLj2mhLqhuNRVdPiNDKx0sKBT5Wo7r8/cwUCgYBTg3SOWR2fRtl8Nl/QMsiFs9rMUlLGvi8sCfcbUvqXzeXJ68m/8xZqBYRkLu+3jJ+qAhCCemt8MKE5NVbXkq+mtZiQmuKo2du+hCm31Mu0rkQymvfycUxU6oQa/l6Q1j57xmbVH8tfi7rd9cZGFDsWfYr/H7c2He++4g0G0MNXgQKBgQCftKWUWlMaiwJ1PuJDxSPCsxN12wA6TMNDe9K7T5YEIENzGZqWnY1xyW3Llfra6bIl+TApB3tzOOpu97DAuXO4u44uWmZthHRvP93LPpMm85rfYgtzOZSpUj+9gtTomnwLBXYdquEAZK7ZtmYi8cfsvGVQboQ+erTqW5o2JPNvjQKBgQCobZusl+daE9gWk+XNV3J6qfKeEYmmEc1U5KATEavia7SKbk7KGkUlZYrqULeO+1+xG2DvD5VBmZ3nzYCyI0yMY8ov7atzoJ9TFaUZsRzIxoOZTQVpOwmhdYHuE6uB6lD+1OQf+21R95hsP12x3DMPKrklc2C1M32c3/9MEWOccA=="
+  alipay-public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp5+3mZi6qsRAUQTLi0W0nOTJnmgrbCPHKDThtG2cPznh2799pojDfwPEfbjDUI30QLRlCIHArVIv9JJz6Q8dKvCnC54OPmor0Ez0io1C421BTqpcrF10xSFr0qGIswxgkEw46r25Ny7Bndd3XPUdJmvseAgtWSCnLdyZ9uwoDacFGAA4gz1m42z/Qg7pnAERFBGVysqXFO6U7+M6C3cBP/6vmPVrYus2pKhyU4CNObYY6oeTq9SShAM/1hJ+/PlacPq3eSQhXpaeEYeqxDeD/cVcZ17/y4itC1cLGt8leVdEzjTDNAVVrIInDOdCTo/dehANvvQUJxcljHrmW74JzQIDAQAB"
+  gateway-url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+  notify-url: http://localhost:8080/api/pay/alipay/notify
+  sign-type: RSA2
+  charset: UTF-8
+  format: json
+
+# ============================================
+# 腾讯地图 Key（用于地图选点、距离计算）
+# ============================================
+map:
+  tencent:
+    key: OOUBZ-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx   # 替换为你的腾讯地图 Key
+    # 逆地理编码
+    geocoder-url: https://apis.map.qq.com/ws/geocoder/v1/
+
+# ============================================
+# 百度 OCR 配置（用于学生证识别）
+# ============================================
+baidu:
+  ocr:
+    app-id: "12345678"                        # 替换为百度 OCR AppID
+    api-key: xxxxxxxxxxxxxxxxxxxxxxxx          # 替换为百度 OCR API Key
+    secret-key: xxxxxxxxxxxxxxxxxxxxxxxx       # 替换为百度 OCR Secret Key
+    # 通用文字识别接口
+    url: https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic
