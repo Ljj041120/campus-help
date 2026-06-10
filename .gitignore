@@ -5,3 +5,8 @@ dist/
 .DS_Store
 *.class
 target/
+实验报告/
+generate_report.py
+guide.doc
+_extract.ps1
+使用说明.md
