@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -242,8 +243,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
             }
 
         } finally {
-            // 6. 释放锁
-            redisTemplate.delete(lockKey);
+            // 6. 释放锁（Lua 脚本保证原子性：仅持有者可释放）
+            String luaScript = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            redisTemplate.execute(
+                new DefaultRedisScript<>(luaScript, Long.class),
+                Collections.singletonList(lockKey),
+                runnerId.toString()
+            );
         }
     }
 

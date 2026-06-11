@@ -17,22 +17,11 @@ async function handleLogin() {
       localStorage.setItem('adminToken', data.data.token)
       router.push('/dashboard')
     } else {
-      // fallback: 硬编码登录
-      if (loginForm.value.username === 'admin' && loginForm.value.password === 'admin123') {
-        localStorage.setItem('adminToken', 'admin-token')
-        router.push('/dashboard')
-        return
-      }
       ElMessage.error(data.message || '用户名或密码错误')
     }
   } catch (e) {
-    // API 未启动时的 fallback
-    if (loginForm.value.username === 'admin' && loginForm.value.password === 'admin123') {
-      localStorage.setItem('adminToken', 'admin-token')
-      router.push('/dashboard')
-    } else {
-      ElMessage.error('用户名或密码错误（admin/admin123）')
-    }
+    ElMessage.error('登录失败，请检查网络连接或后端服务是否启动')
+    console.error('登录请求失败:', e)
   }
 }
 </script>
@@ -49,7 +38,7 @@ async function handleLogin() {
         <el-form-item>
           <el-input
             v-model="loginForm.username"
-            placeholder="用户名 (admin)"
+            placeholder="用户名"
             prefix-icon="User"
             size="large"
           />
@@ -59,7 +48,7 @@ async function handleLogin() {
           <el-input
             v-model="loginForm.password"
             type="password"
-            placeholder="密码 (admin123)"
+            placeholder="密码"
             prefix-icon="Lock"
             size="large"
             show-password

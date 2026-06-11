@@ -10,3 +10,22 @@ generate_report.py
 guide.doc
 _extract.ps1
 使用说明.md
+
+# IDE & Editor
+.idea/
+.vscode/
+*.iml
+
+# CodeGraph
+.codegraph/
+*.db-shm
+*.db-wal
+daemon.log
+daemon.pid
+
+# UniApp
+unpackage/
+
+# Backend
+backend/.env
+backend/target/
