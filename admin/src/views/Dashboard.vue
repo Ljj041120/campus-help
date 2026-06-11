@@ -9,6 +9,7 @@ const todayGMV = ref(0)
 const onlineUsers = ref(0)
 const approvalCount = ref(0)
 const ordersCount = ref({ waiting: 0, inProgress: 0, completed: 0 })
+const typeDistribution = ref({})
 const recentOrders = ref([])
 const chartRef1 = ref(null)
 const chartRef2 = ref(null)
@@ -31,6 +32,8 @@ async function loadDashboard() {
       onlineUsers.value = d.onlineUsers || 0
       approvalCount.value = d.pendingAuths || 0
       ordersCount.value = d.statusCount || { waiting: 0, inProgress: 0, completed: 0 }
+      typeDistribution.value = d.typeDistribution || {}
+      todayGMV.value = d.todayGMV || 0
     }
   } catch (e) {
     console.error('Dashboard load failed:', e)
@@ -50,23 +53,14 @@ async function loadRecentOrders() {
 }
 
 function initCharts() {
-  // 图表1：近7日订单趋势（折线图）
+  // 图表1：今日订单概览（显示总数，后续可扩展7日趋势）
   const chart1 = echarts.init(chartRef1.value)
-  const days = []
-  const data = []
-  const now = new Date()
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(now)
-    d.setDate(d.getDate() - i)
-    days.push((d.getMonth() + 1) + '/' + d.getDate())
-    data.push(Math.floor(Math.random() * 20) + 3) // 模拟数据
-  }
   chart1.setOption({
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: {
       type: 'category',
-      data: days,
+      data: ['待接单', '进行中', '已完成'],
       axisLabel: { color: 'rgba(255,255,255,0.7)' },
       axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } }
     },
@@ -76,27 +70,30 @@ function initCharts() {
       splitLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } }
     },
     series: [{
-      data,
-      type: 'line',
-      smooth: true,
-      lineStyle: { width: 3, color: '#FFD93D' },
-      areaStyle: {
+      data: [
+        ordersCount.value.waiting || 0,
+        ordersCount.value.inProgress || 0,
+        ordersCount.value.completed || 0
+      ],
+      type: 'bar',
+      barWidth: '40%',
+      itemStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: 'rgba(255,217,61,0.4)' },
-          { offset: 1, color: 'rgba(255,217,61,0)' }
+          { offset: 0, color: '#FFD93D' },
+          { offset: 1, color: '#f59e0b' }
         ])
-      },
-      itemStyle: { color: '#FFD93D' }
+      }
     }]
   })
 
-  // 图表2：服务类型占比（饼图）
+  // 图表2：服务类型占比（饼图 - 真实数据）
   const chart2 = echarts.init(chartRef2.value)
+  const typeDist = typeDistribution.value || {}
   const pieData = [
-    { value: Math.floor(Math.random() * 30) + 10, name: '代取快递', itemStyle: { color: '#667eea' } },
-    { value: Math.floor(Math.random() * 20) + 5, name: '代买物品', itemStyle: { color: '#f093fb' } },
-    { value: Math.floor(Math.random() * 15) + 3, name: '代送物品', itemStyle: { color: '#4facfe' } },
-    { value: Math.floor(Math.random() * 10) + 1, name: '其他', itemStyle: { color: '#43e97b' } }
+    { value: typeDist['代取快递'] || 0, name: '代取快递', itemStyle: { color: '#667eea' } },
+    { value: typeDist['代买物品'] || 0, name: '代买物品', itemStyle: { color: '#f093fb' } },
+    { value: typeDist['代送物品'] || 0, name: '代送物品', itemStyle: { color: '#4facfe' } },
+    { value: typeDist['其他'] || 0, name: '其他', itemStyle: { color: '#43e97b' } }
   ]
   chart2.setOption({
     tooltip: { trigger: 'item', formatter: '{b}: {c}单 ({d}%)' },

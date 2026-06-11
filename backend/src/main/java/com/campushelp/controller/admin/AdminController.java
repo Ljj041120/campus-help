@@ -52,14 +52,32 @@ public class AdminController {
         long totalUsers = userService.count();
         long totalOrders = orderService.count();
 
-        // 今日订单数
-        long todayOrders = orderService.count();
+        // 今日订单数 & 成交额
+        String today = java.time.LocalDate.now().toString();
+        var todayWrapper = new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Order>()
+                .ge(Order::getCreatedAt, today + " 00:00:00")
+                .le(Order::getCreatedAt, today + " 23:59:59");
+        long todayOrders = orderService.count(todayWrapper);
+        BigDecimal todayGMV = orderService.lambdaQuery()
+                .ge(Order::getCreatedAt, today + " 00:00:00")
+                .le(Order::getCreatedAt, today + " 23:59:59")
+                .eq(Order::getStatus, 5)
+                .list().stream()
+                .map(Order::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // 各状态订单统计
         Map<String, Long> statusCount = new LinkedHashMap<>();
         statusCount.put("waiting", orderService.lambdaQuery().eq(Order::getStatus, 1).count());
         statusCount.put("inProgress", orderService.lambdaQuery().eq(Order::getStatus, 3).count());
         statusCount.put("completed", orderService.lambdaQuery().eq(Order::getStatus, 5).count());
+
+        // 服务类型分布
+        Map<String, Long> typeDistribution = new LinkedHashMap<>();
+        typeDistribution.put("代取快递", orderService.lambdaQuery().eq(Order::getOrderType, 1).count());
+        typeDistribution.put("代买物品", orderService.lambdaQuery().eq(Order::getOrderType, 2).count());
+        typeDistribution.put("代送物品", orderService.lambdaQuery().eq(Order::getOrderType, 3).count());
+        typeDistribution.put("其他", orderService.lambdaQuery().eq(Order::getOrderType, 4).count());
 
         // 在线用户（Redis）
         Long onlineUsers = 0L;
@@ -77,9 +95,11 @@ public class AdminController {
         data.put("totalUsers", totalUsers);
         data.put("totalOrders", totalOrders);
         data.put("todayOrders", todayOrders);
+        data.put("todayGMV", todayGMV);
         data.put("onlineUsers", onlineUsers);
         data.put("statusCount", statusCount);
-        data.put("pendingAuths", 5); // placeholder
+        data.put("typeDistribution", typeDistribution);
+        data.put("pendingAuths", pendingAuths);
 
         return Result.success(data);
     }

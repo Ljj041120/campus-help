@@ -6,12 +6,14 @@ import com.campushelp.enums.OrderStatus;
 import com.campushelp.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -20,9 +22,19 @@ import java.util.List;
 public class OrderTimeoutJob {
 
     private final OrderMapper orderMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    private static final String JOB_LOCK_KEY = "lock:job:timeout";
+    private static final long JOB_LOCK_TTL = 55; // 比 fixedDelay 略短
 
     @Scheduled(fixedDelay = 60000)
     public void cancelTimeoutOrders() {
+        // 分布式锁：多实例部署时仅一个执行
+        Boolean locked = redisTemplate.opsForValue()
+                .setIfAbsent(JOB_LOCK_KEY, "1", JOB_LOCK_TTL, TimeUnit.SECONDS);
+        if (locked == null || !locked) {
+            return;
+        }
         try {
             LocalDateTime now = LocalDateTime.now();
 

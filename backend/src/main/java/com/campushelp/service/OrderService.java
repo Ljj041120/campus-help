@@ -147,14 +147,20 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
                 return Collections.emptyList();
             }
 
-            // 2. 查数据库获取信用分等信息，计算综合评分
+            // 2. 批量查数据库（消除 N+1 查询）
+            List<Long> runnerIds = results.getContent().stream()
+                    .map(r -> Long.valueOf(r.getContent().getName().toString()))
+                    .collect(Collectors.toList());
+            Map<Long, User> userMap = userService.listByIds(runnerIds).stream()
+                    .collect(Collectors.toMap(User::getId, u -> u, (a, b) -> a));
+
+            // 3. 计算综合评分
             List<Map<String, Object>> scored = new ArrayList<>();
             for (GeoResult<RedisGeoCommands.GeoLocation<Object>> result : results) {
                 String runnerIdStr = result.getContent().getName().toString();
                 Long runnerId = Long.valueOf(runnerIdStr);
 
-                // 查数据库
-                User runner = userService.getById(runnerId);
+                User runner = userMap.get(runnerId);
                 if (runner == null || runner.getStatus() != 1 || runner.getIsRealname() != 1) continue;
                 if (runner.getCreditScore() < 60) continue;
 

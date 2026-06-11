@@ -5,12 +5,14 @@ import com.campushelp.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 微信订阅消息推送服务
@@ -24,7 +26,11 @@ import java.util.Map;
 public class MessagePushService {
 
     private final UserMapper userMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final RestTemplate restTemplate = new RestTemplate();
+
+    private static final String TOKEN_CACHE_KEY = "wechat:access_token";
+    private static final long TOKEN_TTL_SECONDS = 7100; // 提前100秒过期
 
     @Value("${wechat.appid}")
     private String appid;
@@ -46,16 +52,24 @@ public class MessagePushService {
     private static final String TEMPLATE_INCOME = "MCTypbaKF6ETjs7idj-s-5GLHMCSqEcdLgO-ybCtBV4";
 
     /**
-     * 获取微信 access_token（有效期2小时，生产环境应缓存）
+     * 获取微信 access_token（Redis 缓存，有效期7200秒，缓存7100秒）
      */
     private String getAccessToken() {
         try {
+            // 1. 先查 Redis 缓存
+            Object cached = redisTemplate.opsForValue().get(TOKEN_CACHE_KEY);
+            if (cached != null) {
+                return cached.toString();
+            }
+
+            // 2. 缓存未命中，调用微信接口
             String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
                     + appid + "&secret=" + secret;
             Map<String, Object> resp = restTemplate.getForObject(url, Map.class);
             if (resp != null && resp.containsKey("access_token")) {
                 String token = (String) resp.get("access_token");
-                log.info("获取微信 access_token 成功");
+                redisTemplate.opsForValue().set(TOKEN_CACHE_KEY, token, TOKEN_TTL_SECONDS, TimeUnit.SECONDS);
+                log.info("获取微信 access_token 成功（已缓存 {} 秒）", TOKEN_TTL_SECONDS);
                 return token;
             } else {
                 log.error("获取微信 access_token 失败: {}", resp);

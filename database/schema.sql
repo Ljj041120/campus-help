@@ -197,3 +197,15 @@ INSERT INTO users (openid, nickname, avatar, credit_score, is_realname, roles, s
 -- 测试发布者用户
 INSERT INTO users (openid, nickname, avatar, credit_score, is_realname, roles, status) VALUES
 ('publisher_test', 'Publisher', 'https://example.com/avatar_publisher.png', 80, 1, 'publisher,runner', 1);
+
+-- ============================================
+-- 性能索引（在初始化后执行）
+-- ============================================
+-- orders: 订单大厅查询
+ALTER TABLE orders ADD INDEX idx_status_created (status, created_at);
+-- orders: 防支付宝重复回调
+ALTER TABLE orders ADD UNIQUE INDEX uk_alipay_trade_no (alipay_trade_no);
+-- chat_messages: 聊天记录查询
+ALTER TABLE chat_messages ADD INDEX idx_order_created (order_id, created_at);
+-- transactions: 流水查询
+ALTER TABLE transactions ADD INDEX idx_wallet_created (wallet_id, created_at);

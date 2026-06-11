@@ -45,12 +45,22 @@ public class EvaluationService extends ServiceImpl<EvaluationMapper, Evaluation>
         evaluation.setContent(content);
         this.save(evaluation);
 
-        // 更新信用分
-        if (toUserId != null && score >= 4) {
+        // 信用分原子更新（避免并发竞态条件）
+        if (toUserId != null) {
             User toUser = userMapper.selectById(toUserId);
-            if (toUser != null && toUser.getCreditScore() < 100) {
-                toUser.setCreditScore(Math.min(100, toUser.getCreditScore() + 1));
-                userMapper.updateById(toUser);
+            if (toUser != null) {
+                int delta;
+                if (score <= 2) {
+                    delta = -2;  // 低分：扣2分
+                } else if (score >= 4) {
+                    delta = +1;  // 高分：加1分
+                } else {
+                    delta = 0;   // 3分：不变
+                }
+                if (delta != 0) {
+                    toUser.setCreditScore(Math.max(0, Math.min(100, toUser.getCreditScore() + delta)));
+                    userMapper.updateById(toUser);
+                }
             }
         }
     }
