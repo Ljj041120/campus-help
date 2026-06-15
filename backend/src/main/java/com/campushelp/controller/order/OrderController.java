@@ -74,8 +74,9 @@ public class OrderController {
      */
     @PutMapping("/{id}/status")
     public Result<Void> updateOrderStatus(@PathVariable Long id,
-                                           @RequestParam Integer status) {
-        orderService.updateOrderStatus(id, status);
+                                           @RequestParam Integer status,
+                                           @RequestAttribute Long userId) {
+        orderService.updateOrderStatus(id, status, userId);
         return Result.success();
     }
 

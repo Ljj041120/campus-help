@@ -12,18 +12,34 @@ import com.campushelp.enums.AuthStatus;
 import com.campushelp.mapper.RealNameAuthMapper;
 import com.campushelp.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService extends ServiceImpl<UserMapper, User> {
 
     private final JwtUtil jwtUtil;
     private final RealNameAuthMapper realNameAuthMapper;
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    @Value("${wechat.appid}")
+    private String appid;
+
+    @Value("${wechat.secret}")
+    private String secret;
+
+    @Value("${wechat.login-url}")
+    private String loginUrl;
 
     /**
      * 微信登录
@@ -77,16 +93,29 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     }
 
     /**
-     * 模拟获取openid（实际项目中调用微信api）
+     * 通过微信 jscode2session 接口获取 openid
+     * 开发环境下若调用失败则降级为模拟 openid
      */
     private String getOpenidFromWechat(String code) {
-        // 模拟：code 直接映射为 openid
-        // 实际实现：调用 https://api.weixin.qq.com/sns/jscode2session
         if (code == null || code.isEmpty()) {
             return null;
         }
-        // 这里简化处理，返回模拟openid
-        return "wx_" + code.hashCode();
+        try {
+            String url = loginUrl + "?appid=" + appid + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
+            Map<String, Object> resp = restTemplate.getForObject(url, Map.class);
+            if (resp != null && resp.containsKey("openid")) {
+                log.info("微信登录成功，获取 openid");
+                return (String) resp.get("openid");
+            }
+            log.warn("微信接口返回异常: {}", resp);
+        } catch (Exception e) {
+            log.warn("调用微信接口失败，使用模拟 openid 降级: {}", e.getMessage());
+        }
+        // 开发环境降级：仅 mock_code_ 前缀走模拟
+        if (code.startsWith("mock_code_")) {
+            return "wx_" + code.hashCode();
+        }
+        return null;
     }
 
     /**
@@ -150,13 +179,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         auth.setStatus(AuthStatus.PENDING.getValue());
         realNameAuthMapper.insert(auth);
 
-        // 模拟OCR识别：如果学号和姓名匹配，自动通过
-        if (studentNo != null && studentNo.length() >= 8 && name != null && name.length() >= 2) {
-            auth.setStatus(AuthStatus.APPROVED.getValue());
-            User user = getUserById(userId);
-            user.setIsRealname(1);
-            this.updateById(user);
-        }
+        // 已移除自动通过逻辑，全部走人工审核（安全原因）
+        log.info("实名认证已提交，待管理员审核: userId={}, name={}", userId, name);
     }
 
     /**

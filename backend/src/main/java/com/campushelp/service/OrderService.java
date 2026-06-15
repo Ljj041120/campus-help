@@ -263,9 +263,14 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * 更新订单状态
      */
     @Transactional
-    public void updateOrderStatus(Long orderId, Integer newStatus) {
+    public void updateOrderStatus(Long orderId, Integer newStatus, Long userId) {
         Order order = this.getById(orderId);
         if (order == null) throw new BusinessException("订单不存在");
+        // 权限校验：仅订单发布者或跑腿员可修改
+        if (!order.getPublisherId().equals(userId) &&
+            (order.getRunnerId() == null || !order.getRunnerId().equals(userId))) {
+            throw new BusinessException("无权操作此订单");
+        }
         if (!isValidStatusTransition(order.getStatus(), newStatus)) {
             throw new BusinessException("非法的状态流转: " + order.getStatus() + " -> " + newStatus);
         }

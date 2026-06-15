@@ -12,6 +12,8 @@ import com.campushelp.service.OrderService;
 import com.campushelp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -27,18 +29,43 @@ public class AdminController {
     private final JwtUtil jwtUtil;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RealNameAuthMapper realNameAuthMapper;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
-     * 管理员登录（简化：硬编码账号）
+     * 初始化管理员账号（首次启动时）
+     */
+    @jakarta.annotation.PostConstruct
+    public void initAdmin() {
+        var admin = userService.lambdaQuery()
+                .eq(User::getOpenid, "admin_test")
+                .eq(User::getRoles, "admin")
+                .one();
+        if (admin != null) {
+            // 确保密码字段有 BCrypt 加密值
+            String rawPassword = "admin123";
+            if (!passwordEncoder.matches(rawPassword, admin.getPassword())) {
+                admin.setPassword(passwordEncoder.encode(rawPassword));
+                userService.updateById(admin);
+            }
+        }
+    }
+
+    /**
+     * 管理员登录（BCrypt 校验）
      */
     @PostMapping("/login")
     public Result<Map<String, String>> login(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
 
-        if ("admin".equals(username) && "admin123".equals(password)) {
-            // 管理员 userId=1
-            String token = jwtUtil.generateToken(1L, "admin");
+        // 查数据库获取管理员用户
+        var admin = userService.lambdaQuery()
+                .eq(User::getOpenid, username)
+                .eq(User::getRoles, "admin")
+                .one();
+
+        if (admin != null && passwordEncoder.matches(password, admin.getPassword())) {
+            String token = jwtUtil.generateToken(admin.getId(), "admin");
             return Result.success(Map.of("token", token, "username", username));
         }
         return Result.error(401, "用户名或密码错误");

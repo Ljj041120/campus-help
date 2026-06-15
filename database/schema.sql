@@ -15,6 +15,7 @@ USE campus_help;
 CREATE TABLE IF NOT EXISTS users (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     openid          VARCHAR(64)   NOT NULL COMMENT '微信openid',
+    password        VARCHAR(256)  DEFAULT '' COMMENT '密码(BCrypt加密)',
     nickname        VARCHAR(64)   DEFAULT '' COMMENT '微信昵称',
     avatar          VARCHAR(256)  DEFAULT '' COMMENT '头像URL',
     phone           VARCHAR(20)   DEFAULT '' COMMENT '手机号',
@@ -187,8 +188,8 @@ INSERT INTO sys_config (config_key, config_value, description) VALUES
 -- 初始化测试数据
 -- ============================================
 -- 测试管理员用户
-INSERT INTO users (openid, nickname, avatar, credit_score, is_realname, roles, status) VALUES
-('admin_test', 'Admin', 'https://example.com/avatar_admin.png', 100, 1, 'admin', 1);
+INSERT INTO users (openid, password, nickname, avatar, credit_score, is_realname, roles, status) VALUES
+('admin_test', '$2a$10$QzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQ', 'Admin', 'https://example.com/avatar_admin.png', 100, 1, 'admin', 1);
 
 -- 测试跑腿员用户
 INSERT INTO users (openid, nickname, avatar, credit_score, is_realname, roles, status) VALUES

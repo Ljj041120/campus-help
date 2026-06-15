@@ -34,9 +34,10 @@ public class ChatService extends ServiceImpl<ChatMessageMapper, ChatMessage> {
      * 获取订单聊天消息
      */
     public List<ChatMessage> getOrderMessages(Long orderId, int limit) {
-        return this.list(new LambdaQueryWrapper<ChatMessage>()
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<ChatMessage> page = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(1, limit);
+        return this.page(page, new LambdaQueryWrapper<ChatMessage>()
                 .eq(ChatMessage::getOrderId, orderId)
-                .orderByAsc(ChatMessage::getCreatedAt)
-                .last("LIMIT " + limit));
+                .orderByAsc(ChatMessage::getCreatedAt))
+                .getRecords();
     }
 }

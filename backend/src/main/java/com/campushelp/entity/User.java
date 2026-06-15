@@ -15,6 +15,9 @@ public class User {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    /** 密码（BCrypt 加密） */
+    private String password;
+
     /** 微信openid */
     private String openid;
 

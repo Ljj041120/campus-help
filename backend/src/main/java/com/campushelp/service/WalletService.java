@@ -110,10 +110,11 @@ public class WalletService extends ServiceImpl<WalletMapper, Wallet> {
      */
     public java.util.List<TransactionRecord> getTransactionRecords(Long userId, int limit) {
         Wallet wallet = getOrCreateWallet(userId);
-        return transactionMapper.selectList(
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<TransactionRecord> page = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(1, limit);
+        return transactionMapper.selectPage(page,
                 new LambdaQueryWrapper<TransactionRecord>()
                         .eq(TransactionRecord::getWalletId, wallet.getId())
-                        .orderByDesc(TransactionRecord::getCreatedAt)
-                        .last("LIMIT " + limit));
+                        .orderByDesc(TransactionRecord::getCreatedAt))
+                .getRecords();
     }
 }
