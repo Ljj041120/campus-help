@@ -111,12 +111,23 @@ async function toggleStatus(row, val) {
   }
 }
 
-function handleDelete(row) {
-  ElMessageBox.confirm(`确定删除用户 "${row.nickname}" 吗？`, '警告', { type: 'warning' })
-    .then(() => {
-      ElMessage.info('删除功能待实现')
+async function handleDelete(row) {
+  try {
+    await ElMessageBox.confirm(`确定删除用户 "${row.nickname}" 吗？`, '警告', { type: 'warning' })
+    const res = await fetch(`/api/admin/users/${row.id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': token() }
     })
-    .catch(() => {})
+    const json = await res.json()
+    if (json.code === 200) {
+      ElMessage.success('删除成功')
+      loadData()
+    } else {
+      ElMessage.error(json.message || '删除失败')
+    }
+  } catch (e) {
+    if (e !== 'cancel') ElMessage.error('删除失败')
+  }
 }
 
 onMounted(loadData)

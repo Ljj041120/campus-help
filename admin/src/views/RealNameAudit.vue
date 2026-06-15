@@ -176,7 +176,7 @@ async function confirmReject() {
         authId: rejectRow.value.id,
         status: '2',
         comment: rejectComment.value || '不符合要求',
-        auditorId: '1'
+        auditorId: getAdminId()
       })
     })
     const json = await res.json()

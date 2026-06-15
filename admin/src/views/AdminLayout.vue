@@ -63,7 +63,9 @@ onMounted(async () => {
     if (data.code === 200 && data.data) {
       pendingCount.value = data.data.total || 0
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error('获取待审核数失败:', e)
+  }
 })
 
 function handleLogout() {

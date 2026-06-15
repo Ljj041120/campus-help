@@ -56,11 +56,11 @@ public class OrderTimeoutJob {
                     .eq(Order::getStatus, OrderStatus.WAITING_FOR_ACCEPT.getValue())
                     .lt(Order::getCreatedAt, now.minusHours(2))
             );
-            // 批量更新（合并为一条 SQL）
-            if (!acceptTimeout.isEmpty()) {
-                acceptTimeout.forEach(o -> o.setStatus(OrderStatus.CANCELLED.getValue()));
-                orderMapper.updateBatchById(acceptTimeout);
-                log.info("超时自动取消(无人接单): count={}", acceptTimeout.size());
+            // 逐条更新（兼容 MyBatis-Plus 基础 Mapper）
+            for (Order o : acceptTimeout) {
+                o.setStatus(OrderStatus.CANCELLED.getValue());
+                orderMapper.updateById(o);
+                log.info("超时自动取消(无人接单): orderId={}", o.getId());
             }
         } catch (Exception e) {
             log.error("超时取消任务异常", e);

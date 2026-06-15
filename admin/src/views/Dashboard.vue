@@ -49,7 +49,9 @@ async function loadRecentOrders() {
     if (json.code === 200 && json.data && json.data.records) {
       recentOrders.value = json.data.records
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error('加载最近订单失败:', e)
+  }
 }
 
 function initCharts() {

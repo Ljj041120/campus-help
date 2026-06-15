@@ -187,6 +187,19 @@ public class AdminController {
     }
 
     /**
+     * 删除用户（软删除）
+     */
+    @DeleteMapping("/users/{id}")
+    public Result<Void> deleteUser(@PathVariable Long id) {
+        User user = userService.getById(id);
+        if (user == null) return Result.error("用户不存在");
+        user.setStatus(0); // 禁用而非真实删除
+        userService.updateById(user);
+        log.info("管理员删除用户: userId={}", id);
+        return Result.success();
+    }
+
+    /**
      * 订单列表
      */
     @GetMapping("/orders")
