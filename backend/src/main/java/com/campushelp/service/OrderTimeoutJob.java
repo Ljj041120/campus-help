@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,7 @@ public class OrderTimeoutJob {
     private static final long JOB_LOCK_TTL = 55; // 比 fixedDelay 略短
 
     @Scheduled(fixedDelay = 60000)
+    @Transactional
     public void cancelTimeoutOrders() {
         // 分布式锁：多实例部署时仅一个执行
         Boolean locked = redisTemplate.opsForValue()
@@ -54,10 +56,11 @@ public class OrderTimeoutJob {
                     .eq(Order::getStatus, OrderStatus.WAITING_FOR_ACCEPT.getValue())
                     .lt(Order::getCreatedAt, now.minusHours(2))
             );
-            for (Order o : acceptTimeout) {
-                o.setStatus(OrderStatus.CANCELLED.getValue());
-                orderMapper.updateById(o);
-                log.info("超时自动取消(无人接单): orderId={}", o.getId());
+            // 批量更新（合并为一条 SQL）
+            if (!acceptTimeout.isEmpty()) {
+                acceptTimeout.forEach(o -> o.setStatus(OrderStatus.CANCELLED.getValue()));
+                orderMapper.updateBatchById(acceptTimeout);
+                log.info("超时自动取消(无人接单): count={}", acceptTimeout.size());
             }
         } catch (Exception e) {
             log.error("超时取消任务异常", e);

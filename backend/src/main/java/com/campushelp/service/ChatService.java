@@ -6,6 +6,7 @@ import com.campushelp.entity.ChatMessage;
 import com.campushelp.mapper.ChatMessageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ChatService extends ServiceImpl<ChatMessageMapper, ChatMessage> {
     /**
      * 发送消息
      */
+    @Transactional
     public ChatMessage sendMessage(Long orderId, Long senderId, Long receiverId,
                                     String content, Integer messageType) {
         ChatMessage message = new ChatMessage();
