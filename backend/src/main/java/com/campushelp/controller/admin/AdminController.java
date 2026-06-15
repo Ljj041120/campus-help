@@ -29,6 +29,7 @@ public class AdminController {
     private final JwtUtil jwtUtil;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RealNameAuthMapper realNameAuthMapper;
+    private final com.campushelp.mapper.OrderMapper orderMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
@@ -93,18 +94,44 @@ public class AdminController {
                 .map(Order::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // 各状态订单统计
+        // 各状态订单统计（单条 SQL GROUP BY）
         Map<String, Long> statusCount = new LinkedHashMap<>();
-        statusCount.put("waiting", orderService.lambdaQuery().eq(Order::getStatus, 1).count());
-        statusCount.put("inProgress", orderService.lambdaQuery().eq(Order::getStatus, 3).count());
-        statusCount.put("completed", orderService.lambdaQuery().eq(Order::getStatus, 5).count());
+        List<Map<String, Object>> statusRows = orderMapper.countByStatus();
+        for (Map<String, Object> row : statusRows) {
+            Object statusObj = row.get("status");
+            Object cntObj = row.get("cnt");
+            if (statusObj != null && cntObj != null) {
+                int st = ((Number) statusObj).intValue();
+                long cnt = ((Number) cntObj).longValue();
+                if (st == 1) statusCount.put("waiting", cnt);
+                else if (st == 3) statusCount.put("inProgress", cnt);
+                else if (st == 5) statusCount.put("completed", cnt);
+            }
+        }
+        // 确保默认值
+        statusCount.putIfAbsent("waiting", 0L);
+        statusCount.putIfAbsent("inProgress", 0L);
+        statusCount.putIfAbsent("completed", 0L);
 
-        // 服务类型分布
+        // 服务类型分布（单条 SQL GROUP BY）
         Map<String, Long> typeDistribution = new LinkedHashMap<>();
-        typeDistribution.put("代取快递", orderService.lambdaQuery().eq(Order::getOrderType, 1).count());
-        typeDistribution.put("代买物品", orderService.lambdaQuery().eq(Order::getOrderType, 2).count());
-        typeDistribution.put("代送物品", orderService.lambdaQuery().eq(Order::getOrderType, 3).count());
-        typeDistribution.put("其他", orderService.lambdaQuery().eq(Order::getOrderType, 4).count());
+        List<Map<String, Object>> typeRows = orderMapper.countByOrderType();
+        for (Map<String, Object> row : typeRows) {
+            Object typeObj = row.get("order_type");
+            Object cntObj = row.get("cnt");
+            if (typeObj != null && cntObj != null) {
+                int ot = ((Number) typeObj).intValue();
+                long cnt = ((Number) cntObj).longValue();
+                if (ot == 1) typeDistribution.put("代取快递", cnt);
+                else if (ot == 2) typeDistribution.put("代买物品", cnt);
+                else if (ot == 3) typeDistribution.put("代送物品", cnt);
+                else if (ot == 4) typeDistribution.put("其他", cnt);
+            }
+        }
+        typeDistribution.putIfAbsent("代取快递", 0L);
+        typeDistribution.putIfAbsent("代买物品", 0L);
+        typeDistribution.putIfAbsent("代送物品", 0L);
+        typeDistribution.putIfAbsent("其他", 0L);
 
         // 在线用户（Redis）
         Long onlineUsers = 0L;
