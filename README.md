@@ -158,7 +158,7 @@ campus-help/
 │   └── uniapp/pages/  # 7个页面
 ├── database/
 │   └── schema.sql     # 数据库建表脚本
-└── 优化方案.md         # 代码优化方案
+
 ```
 
 ---
