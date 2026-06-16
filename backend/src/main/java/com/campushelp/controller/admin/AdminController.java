@@ -11,6 +11,7 @@ import com.campushelp.enums.AuthStatus;
 import com.campushelp.service.OrderService;
 import com.campushelp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
