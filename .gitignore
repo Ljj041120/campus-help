@@ -30,3 +30,6 @@ unpackage/
 # Backend
 backend/.env
 backend/target/
+
+# Reasonix AI
+.reasonix/
